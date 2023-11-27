@@ -13,12 +13,12 @@ public class Game implements Runnable {
 		gamePanel.requestFocus();
 		startGameLoop();
 	}
-	
+
 	private void startGameLoop() {
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
-	
+
 	@Override
 	public void run() {
 
@@ -26,22 +26,22 @@ public class Game implements Runnable {
 		double timePerFrame = 1_000_000_000.0 / FPS_SET;
 		long lastFrame = System.nanoTime();
 		long now = System.nanoTime();
-		
+
 		int frames = 0;
 		long lastCheck = System.currentTimeMillis();
-		
+
 		while (true) {
-			
+
 			now = System.nanoTime();
-			
+
 			if (now - lastFrame >= timePerFrame) {
 				gamePanel.repaint();
 				lastFrame = now;
-				
+
 				// 1 Second 1000 MilliSeconds
 				frames++;
 			}
-			
+
 			if (System.currentTimeMillis() - lastCheck >= 1000) {
 				lastCheck = System.currentTimeMillis();
 				System.out.println("FPS: " + frames);
