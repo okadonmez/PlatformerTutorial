@@ -8,16 +8,17 @@ import javax.swing.JPanel;
 import Inputs.KeyboardInputs;
 import Inputs.MouseInputs;
 
+import static main.Game.*;
+
 public class GamePanel extends JPanel {
 
 	private MouseInputs mouseInputs;
 	private Game game;
-	
-	public GamePanel(Game game) {
 
+	public GamePanel(Game game) {
 		mouseInputs = new MouseInputs(this);
 		this.game = game;
-		
+
 		setPanelSize();
 		addKeyListener(new KeyboardInputs(this));
 		addMouseListener(mouseInputs);
@@ -25,10 +26,12 @@ public class GamePanel extends JPanel {
 	}
 
 	private void setPanelSize() {
-		Dimension size = new Dimension(1280, 800);
+		Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
 		// setMinimumSize(size);
 		setPreferredSize(size);
 		// setMaximumSize(size);
+
+		System.out.println("size: " + GAME_WIDTH + " x " + GAME_HEIGHT);
 	}
 
 	public void updateGame() {
@@ -39,7 +42,7 @@ public class GamePanel extends JPanel {
 		super.paintComponent(g);
 		game.render(g);
 	}
-	
+
 	public Game getGame() {
 		return game;
 	}
