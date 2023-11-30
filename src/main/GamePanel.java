@@ -5,8 +5,8 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import Inputs.KeyboardInputs;
-import Inputs.MouseInputs;
+import inputs.KeyboardInputs;
+import inputs.MouseInputs;
 
 import static main.Game.*;
 
