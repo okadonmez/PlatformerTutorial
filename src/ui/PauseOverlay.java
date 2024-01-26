@@ -94,7 +94,7 @@ public class PauseOverlay {
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		if(volumeButton.isMousePressed()){
+		if (volumeButton.isMousePressed()) {
 			volumeButton.changeX(e.getX());
 		}
 	}
@@ -169,7 +169,7 @@ public class PauseOverlay {
 			replayB.setMouseOver(true);
 		} else if (IsIn(e, unpauseB)) {
 			unpauseB.setMouseOver(true);
-		}else if (IsIn(e, volumeButton)) {
+		} else if (IsIn(e, volumeButton)) {
 			volumeButton.setMouseOver(true);
 		}
 	}
