@@ -52,38 +52,42 @@ public class Player extends Entity {
 
 		this.playing = playing;
 		this.state = IDLE;
-		
+
 		this.maxHealth = 100;
 		this.currentHealth = maxHealth;
 		this.walkSpeed = 1.0f * Game.SCALE;
-		
+
 		loadAnimations();
 		initHitbox(20, 27);
 		initAttackBox();
 	}
-	
+
 	public void setSpawn(Point spawn) {
 		this.x = spawn.x;
 		this.y = spawn.y;
 		hitbox.x = x;
 		hitbox.y = y;
 	}
-	
+
 	private void initAttackBox() {
 		attackBox = new Rectangle2D.Float(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
 	}
 
 	public void update() {
 		updateHealthBar();
-		
-		if(currentHealth <= 0) {
+
+		if (currentHealth <= 0) {
 			playing.setGameOver(true);
-			
+
 			return;
 		}
-		
+
 		updateAttackBox();
 		updatePos();
+
+		if (moving) {
+			checkPotionTouched();
+		}
 
 		if (attacking) {
 			checkAttack();
@@ -93,6 +97,10 @@ public class Player extends Entity {
 		setAnimation();
 	}
 
+	private void checkPotionTouched() {
+		playing.checkPotionTouched(hitbox);
+	}
+
 	private void checkAttack() {
 		if (attackChecked || aniTick != 1) {
 			return;
@@ -100,6 +108,7 @@ public class Player extends Entity {
 
 		attackChecked = true;
 		playing.checkEnemyHit(attackBox);
+		playing.checkObjectHit(attackBox);
 	}
 
 	private void updateAttackBox() {
@@ -169,7 +178,7 @@ public class Player extends Entity {
 			if (startAni != ATTACK) {
 				aniIndex = 1;
 				aniTick = 0;
-				
+
 				return;
 			}
 		}
@@ -272,6 +281,10 @@ public class Player extends Entity {
 		}
 	}
 
+	public void changePower(int value) {
+		System.out.println("Added power!");
+	}
+
 	private void loadAnimations() {
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
@@ -326,17 +339,17 @@ public class Player extends Entity {
 
 	public void resetAll() {
 		resetDirBooleans();
-		
+
 		inAir = false;
 		attacking = false;
 		moving = false;
 		state = IDLE;
 		currentHealth = maxHealth;
-		
+
 		hitbox.x = x;
 		hitbox.y = y;
-		
-		if(!IsEntityOnFloor(hitbox, lvlData)) {
+
+		if (!IsEntityOnFloor(hitbox, lvlData)) {
 			inAir = true;
 		}
 	}

@@ -17,36 +17,37 @@ public class LevelManager {
 
 	public LevelManager(Game game) {
 		this.game = game;
-		
+
 		importOutsideSprites();
-		
+
 		levels = new ArrayList<>();
-		
+
 		buildAllLevels();
 	}
-	
+
 	public void loadNextLevel() {
 		lvlIndex++;
-		
-		if(lvlIndex >= levels.size()) {
+
+		if (lvlIndex >= levels.size()) {
 			lvlIndex = 0;
-			
+
 			System.out.println("No more levels! Game Completed!");
-			
+
 			Gamestate.state = Gamestate.MENU;
 		}
-		
+
 		Level newLevel = levels.get(lvlIndex);
-		
+
 		game.getPlaying().getEnemyManager().loadEnemies(newLevel);
 		game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
 		game.getPlaying().setMaxLvlOffset(newLevel.getLvlOffset());
+		game.getPlaying().getObjectManager().loadObjects(newLevel);
 	}
-	
+
 	private void buildAllLevels() {
 		BufferedImage[] allLevels = LoadSave.GetAllLevels();
-		
-		for(BufferedImage img : allLevels) {
+
+		for (BufferedImage img : allLevels) {
 			levels.add(new Level(img));
 		}
 	}
@@ -80,7 +81,7 @@ public class LevelManager {
 	public Level getCurrentLevel() {
 		return levels.get(lvlIndex);
 	}
-	
+
 	public int getAmountOfLevels() {
 		return levels.size();
 	}

@@ -26,7 +26,9 @@ public class LoadSave {
 	public static final String CRABBY_SPRITE = "crabby_sprite.png";
 	public static final String STATUS_BAR = "health_power_bar.png";
 	public static final String COMPLETED_IMG = "completed_sprite.png";
-	
+	public static final String POTION_ATLAS = "potions_sprites.png";
+	public static final String CONTAINER_ATLAS = "objects_sprites.png";
+
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
 		InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
@@ -49,42 +51,41 @@ public class LoadSave {
 	public static BufferedImage[] GetAllLevels() {
 		URL url = LoadSave.class.getResource("/lvls");
 		File file = null;
-		
+
 		try {
 			file = new File(url.toURI());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		File[] files = file.listFiles();
 		File[] filesSorted = new File[files.length];
-		
-		for(int i = 0; i < filesSorted.length; i++) {
-			for(int j = 0; j < files.length; j++) {
-				if(files[j].getName().equals((i + 1) + ".png")) {
+
+		for (int i = 0; i < filesSorted.length; i++) {
+			for (int j = 0; j < files.length; j++) {
+				if (files[j].getName().equals((i + 1) + ".png")) {
 					filesSorted[i] = files[j];
 				}
 			}
 		}
-		
-		/*for(File f : files) {
-			System.out.println("file: " + f.getName());
-		}
-		
-		for(File f : filesSorted) {
-			System.out.println("file sorted: " + f.getName());
-		}*/
-		
+
+		/*
+		 * for(File f : files) { System.out.println("file: " + f.getName()); }
+		 * 
+		 * for(File f : filesSorted) { System.out.println("file sorted: " +
+		 * f.getName()); }
+		 */
+
 		BufferedImage[] imgs = new BufferedImage[filesSorted.length];
-		
-		for(int i = 0; i < imgs.length; i++) {
+
+		for (int i = 0; i < imgs.length; i++) {
 			try {
 				imgs[i] = ImageIO.read(filesSorted[i]);
-			}catch(IOException e){
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return imgs;
 	}
 }
