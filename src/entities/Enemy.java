@@ -11,7 +11,7 @@ import static utilz.Constants.*;
 import main.Game;
 
 public abstract class Enemy extends Entity {
-	
+
 	protected int enemyType;
 	protected boolean firstUpdate = true;
 	protected int walkDir = LEFT;
@@ -29,7 +29,7 @@ public abstract class Enemy extends Entity {
 		currentHealth = maxHealth;
 		walkSpeed = 0.35f * Game.SCALE;
 	}
-	
+
 	protected void firstUpdateCheck(int[][] lvlData) {
 		if (!IsEntityOnFloor(hitbox, lvlData)) {
 			inAir = true;
@@ -37,7 +37,7 @@ public abstract class Enemy extends Entity {
 
 		firstUpdate = false;
 	}
-	
+
 	protected void updateInAir(int[][] lvlData) {
 		if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
 			hitbox.y += airSpeed;
@@ -48,7 +48,7 @@ public abstract class Enemy extends Entity {
 			tileY = (int) (hitbox.y / Game.TILES_SIZE);
 		}
 	}
-	
+
 	protected void move(int[][] lvlData) {
 		float xSpeed = 0;
 
@@ -76,14 +76,14 @@ public abstract class Enemy extends Entity {
 			walkDir = LEFT;
 		}
 	}
-	
+
 	protected boolean canSeePlayer(int[][] lvlData, Player player) {
 		int playerTileY = (int) (player.getHitbox().y / Game.TILES_SIZE);
 
 		if (playerTileY == tileY) {
 			if (isPlayerInRange(player)) {
 				if (IsSightClear(lvlData, hitbox, player.hitbox, tileY)) {
-					
+
 					return true;
 				}
 			}
@@ -91,7 +91,7 @@ public abstract class Enemy extends Entity {
 
 		return false;
 	}
-	
+
 	protected boolean isPlayerInRange(Player player) {
 		int absValue = (int) Math.abs(player.hitbox.x - hitbox.x);
 
@@ -122,10 +122,10 @@ public abstract class Enemy extends Entity {
 	}
 
 	protected void checkPlayerHit(Rectangle2D.Float attackBox, Player player) {
-		if(attackBox.intersects(player.hitbox)) {
+		if (attackBox.intersects(player.hitbox)) {
 			player.changeHealth(-GetEnemyDmg(enemyType));
 		}
-		
+
 		attackChecked = true;
 	}
 
@@ -154,19 +154,19 @@ public abstract class Enemy extends Entity {
 			walkDir = LEFT;
 		}
 	}
-	
+
 	public void resetEnemy() {
 		hitbox.x = x;
 		hitbox.y = y;
 		firstUpdate = true;
 		currentHealth = maxHealth;
-		
+
 		newState(IDLE);
-		
+
 		active = true;
 		airSpeed = 0;
 	}
-	
+
 	public boolean isActive() {
 		return active;
 	}
