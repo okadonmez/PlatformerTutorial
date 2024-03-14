@@ -56,7 +56,7 @@ public class AudioPlayer {
 		for (int i = 0; i < effects.length; i++) {
 			effects[i] = getClip(effectNames[i]);
 		}
-		
+
 		updateEffectsVolume();
 	}
 
@@ -101,7 +101,7 @@ public class AudioPlayer {
 
 	public void lvlCompleted() {
 		stopSong();
-		
+
 		playEffect(LVL_COMPLETED);
 	}
 

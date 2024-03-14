@@ -88,6 +88,8 @@ public class Player extends Entity {
 
 	private void initAttackBox() {
 		attackBox = new Rectangle2D.Float(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
+
+		resetAttackBox();
 	}
 
 	public void update() {
@@ -164,7 +166,13 @@ public class Player extends Entity {
 	}
 
 	private void updateAttackBox() {
-		if (right || (powerAttackActive && flipW == 1)) {
+		if (right && left) {
+			if (flipW == 1) {
+				attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 10);
+			} else {
+				attackBox.x = hitbox.x - hitbox.width - (int) (Game.SCALE * 10);
+			}
+		} else if (right || (powerAttackActive && flipW == 1)) {
 			attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 10);
 		} else if (left || (powerAttackActive && flipW == -1)) {
 			attackBox.x = hitbox.x - hitbox.width - (int) (Game.SCALE * 10);
@@ -290,20 +298,20 @@ public class Player extends Entity {
 
 		float xSpeed = 0;
 
-		if (left) {
+		if (left && !right) {
 			xSpeed -= walkSpeed;
 			flipX = width;
 			flipW = -1;
 		}
 
-		if (right) {
+		if (right && !left) {
 			xSpeed += walkSpeed;
 			flipX = 0;
 			flipW = 1;
 		}
 
 		if (powerAttackActive) {
-			if (!left && !right) {
+			if ((!left && !right) || (left && right)) {
 				if (flipW == -1) {
 					xSpeed = -walkSpeed;
 				} else {
@@ -313,7 +321,7 @@ public class Player extends Entity {
 
 			xSpeed *= 3;
 		}
-		
+
 		if (!inAir) {
 			if (!IsEntityOnFloor(hitbox, lvlData)) {
 				inAir = true;
@@ -453,14 +461,27 @@ public class Player extends Entity {
 		inAir = false;
 		attacking = false;
 		moving = false;
+
+		airSpeed = 0f;
+
 		state = IDLE;
 		currentHealth = maxHealth;
 
 		hitbox.x = x;
 		hitbox.y = y;
 
+		resetAttackBox();
+
 		if (!IsEntityOnFloor(hitbox, lvlData)) {
 			inAir = true;
+		}
+	}
+
+	public void resetAttackBox() {
+		if (flipW == 1) {
+			attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 10);
+		} else {
+			attackBox.x = hitbox.x - hitbox.width - (int) (Game.SCALE * 10);
 		}
 	}
 

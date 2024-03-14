@@ -170,4 +170,8 @@ public abstract class Enemy extends Entity {
 	public boolean isActive() {
 		return active;
 	}
+
+	public int getCurrentHealth() {
+		return currentHealth;
+	}
 }
